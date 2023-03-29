@@ -1,8 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pointofsale/elements/category.dart';
-import 'package:pointofsale/elements/product.dart';
+import 'package:puntodeventa_ver2/elements/product.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
@@ -118,17 +119,19 @@ class CreateProductState extends State<CreateProduct> {
                 controller: priceController,
                 decoration: const InputDecoration(
                     hintText: 'Ingrese el precio del producto'),
-                /*onChanged: (value) {
+                onChanged: (value) {/*
                   if (isNumeric(value)) {
                     setState(() {
                       errorPrecio = false;
+                      defaultProduct.price = double.parse(priceController.text);
                     });
                   } else {
                     setState(() {
                       errorPrecio = true;
+                      priceController.text = priceController.text;
                     });
-                  }
-                }*/),
+                  }*/
+                }),
           ),
           Padding(
               padding: const EdgeInsets.all(8.0),

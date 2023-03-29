@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pointofsale/elements/provider.dart';
+import 'package:puntodeventa_ver2/elements/provider.dart';
 
 class CreateProvider extends StatelessWidget {
   CreateProvider({Key? key, required this.name});

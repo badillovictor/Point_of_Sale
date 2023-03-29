@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pointofsale/elements/provider.dart';
-import 'package:pointofsale/views/viewregisterproviders.dart';
+import 'package:puntodeventa_ver2/elements/provider.dart';
+import 'package:puntodeventa_ver2/views/viewregisterproviders.dart';
 
 class ProvidersPage extends StatefulWidget {
   const ProvidersPage({super.key});

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pointofsale/elements/category.dart';
-import 'package:pointofsale/elements/product.dart';
-import 'package:pointofsale/elements/provider.dart';
-import 'package:pointofsale/elements/sale.dart';
-import 'package:pointofsale/views/viewcategories.dart';
-import 'package:pointofsale/views/viewproductos.dart';
-import 'package:pointofsale/views/viewproviders.dart';
-import 'package:pointofsale/views/viewreports.dart';
-import 'package:pointofsale/views/viewventa.dart';
+import 'package:puntodeventa_ver2/views/viewcategories.dart';
+import 'package:puntodeventa_ver2/views/viewproductos.dart';
+import 'package:puntodeventa_ver2/views/viewproviders.dart';
+import 'package:puntodeventa_ver2/views/viewreports.dart';
+import 'package:puntodeventa_ver2/views/viewventa.dart';
 
 class MenuPage extends StatelessWidget {
   MenuPage({super.key});

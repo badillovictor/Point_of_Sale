@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pointofsale/elements/category.dart';
-import 'package:pointofsale/views/viewregistercategories.dart';
+import 'package:puntodeventa_ver2/elements/category.dart';
+import 'package:puntodeventa_ver2/views/viewregistercategories.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});

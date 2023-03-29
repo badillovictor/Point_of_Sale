@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pointofsale/elements/product.dart';
-import 'package:pointofsale/views/viewregisterproduct.dart';
+import 'package:puntodeventa_ver2/elements/product.dart';
+import 'package:puntodeventa_ver2/views/viewregisterproduct.dart';
 
 import '../elements/category.dart';
 
@@ -49,21 +49,39 @@ class ProductsPageState extends State<ProductsPage> {
                         Icons.add,
                       ),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (c) {
-                          return CreateProduct(
-                              defaultProduct: Product(
-                                  code: '',
-                                  name: '',
-                                  price: 0.0,
-                                  category: categoryStringList.first),
-                              categoryList: categoryStringList,
-                              defaultValue: categoryStringList.first);
-                        })).then((value) {
-                          if (value != null) {
-                            productsbox.add(value);
-                            setState(() {});
-                          }
-                        });
+                        if (categoryStringList.isNotEmpty) {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (c) {
+                            return CreateProduct(
+                                defaultProduct: Product(
+                                    code: '',
+                                    name: '',
+                                    price: 0.0,
+                                    category: categoryStringList.first),
+                                categoryList: categoryStringList,
+                                defaultValue: categoryStringList.first);
+                          })).then((value) {
+                            if (value != null) {
+                              productsbox.add(value);
+                              setState(() {});
+                            }
+                          });
+                        } else {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Alerta'),
+                              content: const Text('No existen categorias, por favor registre al menos una'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                       },
                     )),
               ),
@@ -93,7 +111,7 @@ class ProductsPageState extends State<ProductsPage> {
                               child: Text(product.name,
                                   style: GoogleFonts.roboto(fontSize: 22)),
                             ),
-                            subtitle: Text(product.code,
+                            subtitle: Text(product.quantity.toString(),
                                 style: GoogleFonts.roboto(fontSize: 22)),
                             trailing: Text("\$" + product.price.toString(),
                                 style: GoogleFonts.roboto(fontSize: 22))),
@@ -113,13 +131,15 @@ class ProductsPageState extends State<ProductsPage> {
                                       backgroundColor:
                                           Color.fromARGB(255, 185, 25, 25)),
                                   onPressed: () {
-                                    int position = productslist.indexOf(product);
+                                    int position =
+                                        productslist.indexOf(product);
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (c) {
                                       return CreateProduct(
                                           defaultProduct: product,
                                           categoryList: categoryStringList,
-                                          defaultValue: categoryStringList.first);
+                                          defaultValue:
+                                              categoryStringList.first);
                                     })).then((value) {
                                       if (value != null) {
                                         productsbox.putAt(position, value);
@@ -143,7 +163,8 @@ class ProductsPageState extends State<ProductsPage> {
                                       backgroundColor:
                                           Color.fromARGB(255, 185, 25, 25)),
                                   onPressed: () {
-                                    int position = productslist.indexOf(product);
+                                    int position =
+                                        productslist.indexOf(product);
                                     productsbox.deleteAt(position);
                                     setState(() {});
                                   },

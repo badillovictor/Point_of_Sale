@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pointofsale/elements/category.dart';
-import 'package:pointofsale/elements/product.dart';
-import 'package:pointofsale/elements/provider.dart';
-import 'package:pointofsale/elements/sale.dart';
-import 'package:pointofsale/views/viewmenu.dart';
+import 'package:puntodeventa_ver2/elements/category.dart';
+import 'package:puntodeventa_ver2/elements/product.dart';
+import 'package:puntodeventa_ver2/elements/provider.dart';
+import 'package:puntodeventa_ver2/elements/sale.dart';
+import 'package:puntodeventa_ver2/views/viewmenu.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pointofsale/elements/category.dart';
+import 'package:puntodeventa_ver2/elements/category.dart';
 
 class CreateCategory extends StatelessWidget {
   CreateCategory({Key? key, required this.description});

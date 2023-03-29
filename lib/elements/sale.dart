@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pointofsale/elements/product.dart';
+import 'package:puntodeventa_ver2/elements/product.dart';
 
 @HiveType(typeId: 3)
 class Sale {

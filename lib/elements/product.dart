@@ -18,7 +18,7 @@ class Product extends HiveObject {
     required this.name,
     required this.price,
     required this.category,
-    this.quantity = 0
+    this.quantity = 1
   });
 }
 

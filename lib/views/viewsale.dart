@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../elements/sale.dart';
 
 class ViewSale extends StatelessWidget {
@@ -23,7 +24,7 @@ class ViewSale extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  sale.date.toString(),
+                  DateFormat('yyyy-MM-dd HH:mm:ss').format(sale.date),
                   style: GoogleFonts.openSans(fontSize: 22),
                 ),
                 Text(

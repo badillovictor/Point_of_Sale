@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:pointofsale/widgets/salegrid.dart';
+import 'package:puntodeventa_ver2/widgets/salegrid.dart';
 import '../elements/sale.dart';
 
 class ReportGrid extends StatelessWidget {

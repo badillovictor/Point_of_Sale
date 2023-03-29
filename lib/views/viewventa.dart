@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pointofsale/elements/product.dart';
+import 'package:puntodeventa_ver2/elements/product.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-
+import 'package:collection/collection.dart';
 import '../elements/sale.dart';
 
 class VentaPage extends StatefulWidget {
@@ -16,7 +16,6 @@ class VentaPageState extends State<VentaPage> {
   final TextEditingController codeController = TextEditingController();
   final List<Product> cartList = [];
   List<Product> productsList = Hive.box<Product>('productsbox').values.toList();
-  double total = 0;
   var salesbox = Hive.box<Sale>('salesbox');
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -26,9 +25,8 @@ class VentaPageState extends State<VentaPage> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-          codeController.text = barcodeScanRes;
-          setState(() {
-          });
+      codeController.text = barcodeScanRes;
+      insertarProducto();
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -41,8 +39,38 @@ class VentaPageState extends State<VentaPage> {
     setState(() {});
   }
 
+  void insertarProducto() {
+    var product = productsList.firstWhereOrNull((element) {
+      return element.code == codeController.text;
+    });
+    if (product != null) {
+      if (cartList.contains(product)) {
+        product.quantity++;
+        setState(() {});
+      } else {
+        cartList.add(product);
+        setState(() {});
+      }
+    } else {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Alerta'),
+          content: const Text('El codigo ingresado no existe'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Ok'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double total = 0;
     for (Product element in cartList) {
       total += (element.price * element.quantity);
     }
@@ -71,18 +99,7 @@ class VentaPageState extends State<VentaPage> {
               Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: ElevatedButton(
-                  onPressed: () {
-                    Product product = productsList.firstWhere((element) {
-                      return element.code == codeController.text;
-                    });
-                    if (cartList.contains(product)) {
-                      product.quantity++;
-                      setState(() {});
-                    } else {
-                      cartList.add(product);
-                      setState(() {});
-                    }
-                  },
+                  onPressed: insertarProducto,
                   child: Icon(Icons.add_circle),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 1, 15, 207),
@@ -106,60 +123,67 @@ class VentaPageState extends State<VentaPage> {
               )
             ],
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: cartList.map((e) {
-                return ListTile(
-                  title: Text(e.name),
-                  leading: Text(e.quantity.toString()),
-                  subtitle: Text((e.quantity * e.price).toString()),
-                  trailing: Container(
-                    height: 100,
-                    width: 150,
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              cartList.remove(e);
-                              setState(() {});
-                            },
-                            icon: Icon(Icons.delete)),
-                        IconButton(
-                            onPressed: () {
-                              e.quantity++;
-                              setState(() {});
-                            },
-                            icon: Icon(Icons.add)),
-                        IconButton(
-                            onPressed: () {
-                              e.quantity--;
-                              setState(() {});
-                            },
-                            icon: Icon(Icons.remove)),
-                      ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: cartList.map((e) {
+                  return ListTile(
+                    title: Text(e.name),
+                    leading: Text(e.quantity.toString()),
+                    subtitle: Text((e.quantity * e.price).toString()),
+                    trailing: Container(
+                      height: 100,
+                      width: 150,
+                      child: Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                cartList.remove(e);
+                                setState(() {});
+                              },
+                              icon: Icon(Icons.delete)),
+                          IconButton(
+                              onPressed: () {
+                                e.quantity++;
+                                setState(() {});
+                              },
+                              icon: Icon(Icons.add)),
+                          IconButton(
+                              onPressed: () {
+                                e.quantity--;
+                                setState(() {});
+                              },
+                              icon: Icon(Icons.remove)),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
-          Padding(padding: EdgeInsets.all(5.0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(0, 189, 0, 0),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))
-            ),
-            child: Row(
-              children: [
-                Text('Confirmar Venta',
-                style: GoogleFonts.roboto(fontSize: 25)),
-                Icon(Icons.point_of_sale)
-              ],
-            ),
-            onPressed: () {
-              salesbox.add(Sale(date: DateTime.now(), shoppingcart: cartList, total: total));
-              Navigator.pop(context);
-            },
+          Padding(
+            padding: EdgeInsets.all(5.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 52, 75, 15),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text('Confirmar Venta',
+                      style: GoogleFonts.roboto(fontSize: 25)),
+                  Icon(Icons.point_of_sale)
+                ],
+              ),
+              onPressed: () {
+                salesbox.add(Sale(
+                    date: DateTime.now(),
+                    shoppingcart: cartList,
+                    total: total));
+                Navigator.pop(context);
+              },
             ),
           )
         ],
